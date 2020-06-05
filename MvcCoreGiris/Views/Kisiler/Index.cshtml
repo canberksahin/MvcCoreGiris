@@ -1,0 +1,23 @@
+﻿@model List<Kisi>
+@{
+    ViewData["Title"] = "Kisiler";
+}
+<h1>@ViewBag.Title</h1>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Kişi Adı</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Id</td>
+                <td>@item.KisiAd</td>
+            </tr>
+        }
+    </tbody>
+</table>
