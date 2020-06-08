@@ -19,5 +19,69 @@ namespace MvcCoreGiris.Controllers
         {
             return View(db.Kisiler.ToList());
         }
+
+
+        public IActionResult Yeni()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public IActionResult Yeni(Kisi kisi)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Add(kisi);
+                db.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View();
+        }
+
+        
+        public IActionResult Duzenle(int? id)
+        {
+            if (id == null || !db.Kisiler.Any(x => x.Id == id))
+            {
+                return NotFound();
+            }
+            var kisi = db.Kisiler.Find(id);
+            if (kisi == null)
+            {
+                return NotFound();
+            }
+
+            return View(kisi);
+        }
+
+        [HttpPost]
+        public IActionResult Duzenle(Kisi kisi)
+        {
+            if (ModelState.IsValid)
+            {
+                db.Update(kisi);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Sil(int? id)
+        {
+            if (id == null )
+            {
+                return NotFound();
+            }
+            var kisi = db.Kisiler.Find(id);
+
+            if (kisi == null)
+            {
+                return NotFound();
+            }
+            db.Remove(kisi);
+            db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

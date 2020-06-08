@@ -10,7 +10,8 @@ namespace MvcCoreGiris.Models
     {
         public int Id { get; set; }
 
-        [Required]
+        [Required(ErrorMessage ="Kişi Adı gereklidir.")]
+        [Display(Name ="Ad")]
         public string KisiAd { get; set; }
 
     }

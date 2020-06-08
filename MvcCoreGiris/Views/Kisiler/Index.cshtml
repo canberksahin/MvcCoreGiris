@@ -3,21 +3,42 @@
     ViewData["Title"] = "Kisiler";
 }
 <h1>@ViewBag.Title</h1>
+<a  asp-action="Yeni" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Yeni Kişi</a>
 
 <table class="table table-striped">
     <thead>
-        <tr>
+        <tr  class="text-center">
             <th>Id</th>
             <th>Kişi Adı</th>
+            <th>İşlemler</th>
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model)
         {
-            <tr>
+            <tr class="text-center">
                 <td>@item.Id</td>
                 <td>@item.KisiAd</td>
+                <td>
+                <a asp-action="Duzenle" asp-route-id="@item.Id"><i class="fas fa-edit"></i></a>
+                    <a href="#" onclick="sil(@item.Id, '@item.KisiAd')">Sil</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+<form asp-action="Sil" name="silForm">
+    <input type="hidden" name="id" id="silId" />
+</form>
+
+@section scripts {
+<script>
+    function sil(id, kisiAd) {
+        event.preventDefault();
+        if (confirm('"' + kisiAd + '" adlı kişi silinecektir emin misiniz? ')) {
+            document.silForm.elements.id.value = id;
+            document.silForm.submit();
+        }
+    }
+</script>
+}
