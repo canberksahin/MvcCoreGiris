@@ -54,15 +54,17 @@ namespace MvcCoreGiris.Controllers
             return View(kisi);
         }
 
-        [HttpPost]
+        [HttpPost, ValidateAntiForgeryToken]
         public IActionResult Duzenle(Kisi kisi)
         {
             if (ModelState.IsValid)
             {
+                // db.Entry(kisi).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.Update(kisi);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
+
             return View();
         }
 
