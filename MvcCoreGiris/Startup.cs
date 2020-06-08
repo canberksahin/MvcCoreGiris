@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using MvcCoreGiris.Services;
 
 namespace MvcCoreGiris
 {
@@ -28,6 +29,8 @@ namespace MvcCoreGiris
 
             //https://docs.microsoft.com/en-us/aspnet/core/data/ef-rp/intro?view=aspnetcore-3.1&tabs=visual-studio#startupcs
             services.AddDbContext<MvcCoreGiris.Models.OkulCoreContext>(options=>options.UseSqlServer(Configuration.GetConnectionString("OkulCoreContext")));
+
+            services.AddSingleton<LuckyNumberService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

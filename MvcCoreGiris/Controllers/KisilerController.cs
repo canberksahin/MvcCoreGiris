@@ -33,6 +33,7 @@ namespace MvcCoreGiris.Controllers
             {
                 db.Add(kisi);
                 db.SaveChanges();
+                TempData["mesaj"] = $"{kisi.KisiAd} adlı kişi başarıyla oluşturulmuştur.";
                 return RedirectToAction(nameof(Index));
             }
             return View();
@@ -62,6 +63,8 @@ namespace MvcCoreGiris.Controllers
                 // db.Entry(kisi).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
                 db.Update(kisi);
                 db.SaveChanges();
+
+                TempData["mesaj"] = $"{kisi.KisiAd} adlı kişi başarıyla güncellenmiştir.";
                 return RedirectToAction(nameof(Index));
             }
 
@@ -83,6 +86,8 @@ namespace MvcCoreGiris.Controllers
             }
             db.Remove(kisi);
             db.SaveChanges();
+
+            TempData["mesaj"] = $"{kisi.KisiAd} adlı kişi başarıyla silinmiştir.";
             return RedirectToAction(nameof(Index));
         }
     }
