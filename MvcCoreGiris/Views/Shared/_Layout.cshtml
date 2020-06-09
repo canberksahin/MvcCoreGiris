@@ -18,9 +18,19 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="float-right navbar-nav">
+                        @*https://docs.microsoft.com/en-us/aspnet/core/mvc/views/view-components?view=aspnetcore-3.1*@
+                        <li>
+                            <vc:sansli-kisi renk="info"></vc:sansli-kisi>
+                            @await Component.InvokeAsync("SansliKisi", new { renk= MvcCoreGiris.Compononents.TextColor.primary })
+                        </li>
+                    </ul>
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="HavaDurumu" asp-action="">Hava Durumu</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Kisiler" asp-action="Index">Kisiler</a>
@@ -29,6 +39,7 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
                     </ul>
+
                 </div>
             </div>
         </nav>

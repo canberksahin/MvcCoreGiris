@@ -25,43 +25,53 @@
     </div>
 </form>
 
-<hr />  
+<hr />
 <h4>Şehrin adını yazar yazmaz sıcaklıgı getirir.</h4>
-<div class="form-inline">
+<form asp-action="SicaklikGetir" id="frmHavaDurumu2" class="form-inline">
     <label class="mb-2 mr-2">Şehir Adı :</label>
-    <input id="sehirAd2" type="text" class="form-control mb-2 mr-2" placeholder="Şehir Adı.." />
-    <label class="mb-2 mr-2" id="sicaklik2">0 C</label>
-</div>
+    <input id="sehirAd2" name="sehirAd" type="text" class="form-control mb-2 mr-2" placeholder="Şehir Adı.." />
+    <label class="mb-2 mr-2" id="sicaklik2"></label>
+</form>
 
 @section scripts {
     <script>
+        $("form#frmHavaDurumu2").submit(function (e) {
+            e.preventDefault();
+        });
 
+        // ajax isteği yap
         function sicaklikGetir2() {
-            $('#sicaklik2').text($("#sehirAd2").val());
-        }
+            var sehirAd = $("#sehirAd2").val().trim();
 
-        var lagSicakliGetir2 = _.debounce(sicaklikGetir2,500);
-
-        $("#sehirAd2").on("input",function () {
-            var sehirAd = $(this).val().trim();
             if (!sehirAd) {
-                $('#sicaklik2').text("");
+                $("#sicaklik2").text("");
                 return;
             }
-            lagSicakliGetir2();
-        });
+
+            var frm = $("form#frmHavaDurumu2");
+
+            var url = frm.attr("action");
+            var data = frm.serialize();
+            $.post(url, data, function (result) {
+                $("#sicaklik2").text(sehirAd +" iline ait sıcaklık: " + result.sicaklik + "°C");
+            }).fail(function () {
+                $("#sicaklik2").text("");
+            });
+        }
+
+        var lagSicaklikGetir2 = _.debounce(sicaklikGetir2, 500);
+
+        $("#sehirAd2").on("input", lagSicaklikGetir2);
 
         $("form#frmHavaDurumu").submit(function (e) {
             e.preventDefault();
             var url = $(this).attr("action");
             var data = $(this).serialize();
             $.post(url, data, function (result) {
-                $("#sicaklik").text(result.sicaklik);
+                $("#sicaklik").text(result.sicaklik + "°C");
             }).fail(function () {
                 $("#sicaklik").text("Veri alınamadı.");
-            })
+            });
         });
-
-
     </script>
 }
