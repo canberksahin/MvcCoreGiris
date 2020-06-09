@@ -1,0 +1,67 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Hava Durumu</h1>
+<form asp-action="SicaklikGetir" id="frmHavaDurumu">
+    @*https://getbootstrap.com/docs/4.4/components/forms/#auto-sizing*@
+    <div class="form-row align-items-center">
+        <div class="col-sm-2 my-1">
+            <label for="sehirAd" class="col-form-label">Şehir</label>
+        </div>
+        <div class="col-auto my-1">
+            <input id="sehirAd" name="sehirAd" type="text" class="form-control" required />
+        </div>
+        <div class="col-auto my-1">
+            <button type="submit" class="btn btn-primary">Getir</button>
+        </div>
+    </div>
+    <div class="form-row align-items-center">
+        <label class="col-sm-2 col-form-label">Sıcaklık</label>
+        <label class="col-auto col-form-label">
+            <span id="sicaklik"></span>
+        </label>
+    </div>
+</form>
+
+<hr />  
+<h4>Şehrin adını yazar yazmaz sıcaklıgı getirir.</h4>
+<div class="form-inline">
+    <label class="mb-2 mr-2">Şehir Adı :</label>
+    <input id="sehirAd2" type="text" class="form-control mb-2 mr-2" placeholder="Şehir Adı.." />
+    <label class="mb-2 mr-2" id="sicaklik2">0 C</label>
+</div>
+
+@section scripts {
+    <script>
+
+        function sicaklikGetir2() {
+            $('#sicaklik2').text($("#sehirAd2").val());
+        }
+
+        var lagSicakliGetir2 = _.debounce(sicaklikGetir2,500);
+
+        $("#sehirAd2").on("input",function () {
+            var sehirAd = $(this).val().trim();
+            if (!sehirAd) {
+                $('#sicaklik2').text("");
+                return;
+            }
+            lagSicakliGetir2();
+        });
+
+        $("form#frmHavaDurumu").submit(function (e) {
+            e.preventDefault();
+            var url = $(this).attr("action");
+            var data = $(this).serialize();
+            $.post(url, data, function (result) {
+                $("#sicaklik").text(result.sicaklik);
+            }).fail(function () {
+                $("#sicaklik").text("Veri alınamadı.");
+            })
+        });
+
+
+    </script>
+}
